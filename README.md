@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ⬡ Trade Journal
 
 An AI-powered trading journal that parses trades from plain English, tracks performance patterns, and generates weekly summaries — built with Python, Flask, and React.
@@ -131,3 +132,7 @@ Trade Journal is part of a suite of AI-powered tools built for real-world use. O
 ## Author
 
 **Jared Smith** — [@JLSmith91](https://github.com/JLSmith91)
+=======
+# trade-journal
+AI-powered trading journal that parses trades from plain English, tracks patterns, and generates weekly performance summaries. Built with Python, Flask, and React.
+>>>>>>> 7d0575b (Initial commit)
