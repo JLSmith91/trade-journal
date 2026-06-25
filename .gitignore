@@ -150,4 +150,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+<<<<<<< HEAD
 >>>>>>> 7d0575b8c5f85e3607db778d721066e52f8f56b8
+=======
+>>>>>>> 7d0575b (Initial commit)
+>>>>>>> e3ebcd6
