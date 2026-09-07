@@ -11,7 +11,7 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-PROXY_URL = "https://claude-proxy-gb7o.onrender.com/api/messages"
+PROXY_URL = "https://claude-proxy-kxgv.onrender.com/api/messages"
 JOURNAL_FILE = "trades.json"
 
 def load_trades():
