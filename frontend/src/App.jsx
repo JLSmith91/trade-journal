@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API = "https://trade-journal-va19.onrender.com/api";
+const API = "https://trade-journal-1-91fk.onrender.com/api";
 
 const COLORS = {
   bg: "#0a0a0f",
