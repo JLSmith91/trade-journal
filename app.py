@@ -1,17 +1,17 @@
 import os
 import json
-import re
+import requests
 from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import anthropic
 from dotenv import load_dotenv
+
 load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
-
+PROXY_URL = "https://claude-proxy-gb7o.onrender.com/api/messages"
 JOURNAL_FILE = "trades.json"
 
 def load_trades():
@@ -23,6 +23,19 @@ def load_trades():
 def save_trades(trades):
     with open(JOURNAL_FILE, "w") as f:
         json.dump(trades, f, indent=2)
+
+def call_claude(messages, max_tokens=500):
+    response = requests.post(
+        PROXY_URL,
+        json={
+            "model": "claude-sonnet-4-6",
+            "max_tokens": max_tokens,
+            "messages": messages
+        },
+        timeout=120
+    )
+    data = response.json()
+    return data["content"][0]["text"].strip()
 
 def parse_trade_with_ai(description):
     prompt = f"""You are a trading journal assistant. Parse this trade description into structured data.
@@ -53,13 +66,7 @@ Rules:
 - pnl_dollars should be positive for wins, negative for losses
 - Return only the JSON object"""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=500,
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    text = message.content[0].text.strip()
+    text = call_claude([{"role": "user", "content": prompt}], max_tokens=500)
     text = text.replace("```json", "").replace("```", "").strip()
     return json.loads(text)
 
@@ -80,13 +87,7 @@ Provide a concise analysis covering:
 
 Keep it under 200 words. Be direct and actionable."""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=400,
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    return message.content[0].text.strip()
+    return call_claude([{"role": "user", "content": prompt}], max_tokens=400)
 
 @app.route("/api/trades", methods=["GET"])
 def get_trades():
